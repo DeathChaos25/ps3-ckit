@@ -23,7 +23,6 @@
 
 
 // You need to declare hooks with SHK_HOOK before you can use them.
-
 // The start function of the PRX. This gets executed when the loader loads the PRX at boot.
 // This means game data is not initialized yet! If you want to modify anything that is initialized after boot,
 // hook a function that is called after initialisation.
@@ -32,7 +31,7 @@ void ShujynxInit( void )
 {
   // Hooks must be 'bound' to a handler like this in the start function.
   // If you don't do this, the game will crash.
-  
+
 }
 
 void ShujynxShutdown( void )
