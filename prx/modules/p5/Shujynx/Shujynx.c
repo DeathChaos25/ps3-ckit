@@ -24,14 +24,25 @@
 
 // You need to declare hooks with SHK_HOOK before you can use them.
 // The start function of the PRX. This gets executed when the loader loads the PRX at boot.
+SHK_HOOK(void, GetFieldIDsFromEncountTBL, int param_1, u32 param_2, short *param_3, short *param_4);
 // This means game data is not initialized yet! If you want to modify anything that is initialized after boot,
 // hook a function that is called after initialisation.
+
+void GetFieldIDsFromEncountTBLHook(int param_1, u32 param_2, short *param_3, short *param_4)
+{
+  SHK_CALL_HOOK(GetFieldIDsFromEncountTBL, param_1, param_2, param_3, param_4);
+  if (CONFIG_ENABLED( alwaysLoadSpecificBattleField ))
+  {
+    *param_3 = CONFIG_INT( forcedFieldMajorID );
+    *param_4 = CONFIG_INT( forcedFieldMinorID );
+  }
+}
 
 void ShujynxInit( void )
 {
   // Hooks must be 'bound' to a handler like this in the start function.
   // If you don't do this, the game will crash.
-
+  SHK_BIND_HOOK(GetFieldIDsFromEncountTBL, GetFieldIDsFromEncountTBLHook);
 }
 
 void ShujynxShutdown( void )

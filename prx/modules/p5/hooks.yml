@@ -500,13 +500,9 @@ FUN_0023c070:
     addr: 0x23c070
     replacedInstr: stdu  r1, -0xd0(r1)
 
-GetDataFromEncountTBL:
-    addr: 0x263b94
-    replacedInstr: rlwinm   r3, r3, 0x0, 0x10, 0x1f
-
-GetFieldIDsFromEncountTable:
-    addr: 0x330e50
-    replacedInstr: lhz  r3, 0x144(r30)
+GetFieldIDsFromEncountTBL:
+    addr: 0x330de0
+    replacedInstr: stdu r1, -0xe0(r1)
     
 FUN_00b0f558:
     addr: 0x00b0f558
