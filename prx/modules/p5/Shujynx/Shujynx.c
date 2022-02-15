@@ -28,13 +28,26 @@ SHK_HOOK(void, GetFieldIDsFromEncountTBL, int param_1, u32 param_2, short *param
 // This means game data is not initialized yet! If you want to modify anything that is initialized after boot,
 // hook a function that is called after initialisation.
 
+bool isCommandUsed = false;
+int fldMajID = 0;
+int fldMinID = 100;
+
+static TtyCmdStatus ttySetBtlFieldCmd( TtyCmd* cmd, const char** args, u32 argc, char** error )
+{
+  fldMajID = intParse( args[0] );
+  fldMinID = intParse( args[1] );
+  isCommandUsed = true;
+  printf("Command has been ran");
+  return TTY_CMD_STATUS_OK;
+}
+
 void GetFieldIDsFromEncountTBLHook(int param_1, u32 param_2, short *param_3, short *param_4)
 {
   SHK_CALL_HOOK(GetFieldIDsFromEncountTBL, param_1, param_2, param_3, param_4);
-  if (CONFIG_ENABLED( alwaysLoadSpecificBattleField ))
+  if (isCommandUsed == true)
   {
-    *param_3 = CONFIG_INT( forcedFieldMajorID );
-    *param_4 = CONFIG_INT( forcedFieldMinorID );
+    *param_3 = fldMajID;
+    *param_4 = fldMinID;
   }
 }
 
